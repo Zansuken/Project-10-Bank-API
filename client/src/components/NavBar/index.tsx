@@ -7,7 +7,7 @@ import { Routes } from "../../router/routes";
 
 const NavBar: FC = () => (
   <nav className={classes["main-nav"]}>
-    <NavLink className={classes["main-nav-logo"]} to={Routes.PROFILE}>
+    <NavLink className={classes["main-nav-logo"]} to={Routes.HOME}>
       <img
         className={classes["main-nav-logo-image"]}
         src="./img/argentBankLogo.png"
