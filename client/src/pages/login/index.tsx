@@ -3,11 +3,12 @@ import Button from "../../components/Button";
 import classes from "./index.module.scss";
 import { useForm } from "react-hook-form";
 import Input from "../../components/Input";
-import { login } from "../../redux/user/slice";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userSelector } from "../../redux/user/selectors";
 import { Routes } from "../../router/routes";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { login } from "../../redux/auth/authActions";
+import { authSelectors } from "../../redux/auth/authSelectors";
+import useCookies from "../../hooks/useCookies";
 
 type Inputs = {
   email: string;
@@ -16,29 +17,29 @@ type Inputs = {
 };
 
 const Login: FC = () => {
-  const user = useSelector(userSelector);
-  const dispatch = useDispatch();
+  const { cookies: token } = useCookies("token");
+
+  const isLoading = useAppSelector(authSelectors.selectLoading);
+  const isSuccessful = useAppSelector(authSelectors.selectSuccess);
+  const isAuthenticated = !!token;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit = async (data: Inputs) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log(data);
-
-    dispatch(login());
+  const onSubmit = (data: Inputs) => {
+    dispatch(login(data));
   };
 
   useEffect(() => {
-    if (user.isLogged) {
-      navigate(Routes.HOME);
+    if (isAuthenticated) {
+      navigate(Routes.PROFILE);
     }
-  }, [navigate, user.isLogged]);
+  }, [navigate, isAuthenticated, isSuccessful]);
 
   return (
     <section className={classes["root"]}>
@@ -77,7 +78,7 @@ const Login: FC = () => {
           type="checkbox"
           isDirty={!!watch("rememberMe")}
         />
-        <Button variant="contained" fullWidth submit isLoading={isSubmitting}>
+        <Button variant="contained" fullWidth submit isLoading={isLoading}>
           Sign In
         </Button>
       </form>

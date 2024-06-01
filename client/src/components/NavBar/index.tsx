@@ -1,26 +1,21 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import classes from "./index.module.scss";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Routes } from "../../router/routes";
-import { useDispatch, useSelector } from "react-redux";
-import { userSelector } from "../../redux/user/selectors";
 import Button from "../Button";
-import { logout } from "../../redux/user/slice";
+import useCookies from "../../hooks/useCookies";
 
 const NavBar: FC = () => {
-  const { isLogged } = useSelector(userSelector);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const handleLogout = () => dispatch(logout());
+  const { cookies: token, removeCookie } = useCookies("token");
 
-  useEffect(() => {
-    if (!isLogged && location.pathname === Routes.PROFILE) {
-      navigate(Routes.LOGIN);
-    }
-  }, [isLogged, location.pathname, navigate]);
+  const isAuthenticated = !!token;
+
+  const handleLogout = () => {
+    removeCookie("token");
+    navigate(Routes.HOME);
+  };
 
   return (
     <nav className={classes["main-nav"]}>
@@ -32,15 +27,21 @@ const NavBar: FC = () => {
         />
         <h1 className="sr-only">Argent Bank</h1>
       </NavLink>
-      <div>
-        {isLogged ? (
-          <Button
-            onClick={handleLogout}
-            icon={<i className="fa fa-user-circle"></i>}
-            color="secondary"
-          >
-            <span>Sign Out</span>
-          </Button>
+      <div className={classes["right-section"]}>
+        {isAuthenticated ? (
+          <>
+            <NavLink className={classes["main-nav-item"]} to={Routes.PROFILE}>
+              <i className="fa fa-user-circle"></i>
+              <span>User</span>
+            </NavLink>
+            <Button
+              onClick={handleLogout}
+              icon={<i className="fa fa-sign-out"></i>}
+              color="secondary"
+            >
+              <span>Sign Out</span>
+            </Button>
+          </>
         ) : (
           <NavLink className={classes["main-nav-item"]} to={Routes.LOGIN}>
             <i className="fa fa-user-circle"></i>
