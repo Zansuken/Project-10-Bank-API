@@ -54,28 +54,26 @@ const features: FeatureItemType[] = [
   },
 ];
 
-const Home: FC = () => {
-  return (
-    <>
-      <div className={classes["hero"]}>
-        <section className={classes["hero-content"]}>
-          <h2 className={classes["sr-only"]}>Promoted Content</h2>
-          <p className={classes["subtitle"]}>No fees.</p>
-          <p className={classes["subtitle"]}>No minimum deposit.</p>
-          <p className={classes["subtitle"]}>High interest rates.</p>
-          <p className={classes["text"]}>
-            Open a savings account with Argent Bank today!
-          </p>
-        </section>
-      </div>
-      <section className={classes["features"]}>
-        <h2 className={classes["sr-only"]}>Features</h2>
-        {features.map((feature, index) => (
-          <FeatureItem key={index} {...feature} />
-        ))}
+const Home: FC = () => (
+  <>
+    <div className={classes["hero"]}>
+      <section className={classes["hero-content"]}>
+        <h2 className={classes["sr-only"]}>Promoted Content</h2>
+        <p className={classes["subtitle"]}>No fees.</p>
+        <p className={classes["subtitle"]}>No minimum deposit.</p>
+        <p className={classes["subtitle"]}>High interest rates.</p>
+        <p className={classes["text"]}>
+          Open a savings account with Argent Bank today!
+        </p>
       </section>
-    </>
-  );
-};
+    </div>
+    <section className={classes["features"]}>
+      <h2 className={classes["sr-only"]}>Features</h2>
+      {features.map((feature, index) => (
+        <FeatureItem key={index} {...feature} />
+      ))}
+    </section>
+  </>
+);
 
 export default Home;
