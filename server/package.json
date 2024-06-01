@@ -19,7 +19,7 @@
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "dev:server": "nodemon ./server.js",
+    "dev": "nodemon ./server.js",
     "populate-db": "node ./scripts/populateDatabase.js",
     "server": "node ./server.js"
   },
