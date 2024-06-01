@@ -5,6 +5,7 @@ import NotFound from "../pages/not-found";
 import Layout from "../pages/Layout";
 import Login from "../pages/login";
 import Home from "../pages/home";
+import { memo } from "react";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: Routes.HOME,
-        Component: Home,
+        Component: memo(Home),
       },
       {
         path: Routes.PROFILE,
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: Routes.NOT_FOUND,
-        Component: NotFound,
+        Component: memo(NotFound),
       },
     ],
   },
