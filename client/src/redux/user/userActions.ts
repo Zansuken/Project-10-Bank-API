@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Endpoints } from "../api/endpoints";
-import { getAxiosInstance } from "../../utils";
+import { getAxiosInstance } from "../../utils/apiHelpers";
 import { User } from "../../types/user";
 import { RootState } from "../store";
 

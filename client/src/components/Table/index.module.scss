@@ -1,0 +1,33 @@
+.root {
+  width: 100%;
+  border-spacing: 0;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  display: block;
+  overflow-y: auto;
+  max-height: 500px;
+
+  thead,
+  tbody tr {
+    box-sizing: border-box;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+
+    td:first-child,
+    th:first-child {
+      width: 40px;
+    }
+  }
+
+  tr {
+    display: table-row;
+  }
+
+  th {
+    padding: 0.75rem;
+    text-align: left;
+  }
+}

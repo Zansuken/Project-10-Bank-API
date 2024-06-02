@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import classes from "./index.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Routes } from "../../router/routes";
@@ -10,6 +10,7 @@ import { userSelectors } from "../../redux/user/userSelectors";
 import { resetTransactions } from "../../redux/transactions/transactionsSlice";
 import { resetToken } from "../../redux/auth/authSlice";
 import { authSelectors } from "../../redux/auth/authSelectors";
+import { getUserProfile } from "../../redux/user/userActions";
 
 const NavBar: FC = () => {
   const storedToken = useAppSelector(authSelectors.selectToken);
@@ -32,12 +33,18 @@ const NavBar: FC = () => {
     dispatch(resetToken());
   };
 
+  useEffect(() => {
+    if (!user && isAuthenticated) {
+      dispatch(getUserProfile());
+    }
+  }, [dispatch, user, isAuthenticated]);
+
   return (
     <nav className={classes["main-nav"]}>
       <NavLink className={classes["main-nav-logo"]} to={Routes.HOME}>
         <img
           className={classes["main-nav-logo-image"]}
-          src="./img/argentBankLogo.png"
+          src="/img/argentBankLogo.png"
           alt="Argent Bank Logo"
         />
         <h1 className="sr-only">Argent Bank</h1>
@@ -47,7 +54,11 @@ const NavBar: FC = () => {
           <>
             <NavLink className={classes["main-nav-item"]} to={Routes.PROFILE}>
               <i className="fa fa-user-circle"></i>
-              <span>{user?.firstName}</span>
+              {user ? (
+                <span>{user?.firstName}</span>
+              ) : (
+                <i className="fa fa-spinner fa-spin"></i>
+              )}
             </NavLink>
             <Button
               onClick={handleLogout}

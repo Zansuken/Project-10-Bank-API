@@ -5,6 +5,7 @@ import NotFound from "../pages/not-found";
 import Layout from "../pages/Layout";
 import Login from "../pages/login";
 import Home from "../pages/home";
+import Account from "../pages/profile/account-page";
 import { memo } from "react";
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: Routes.PROFILE,
         Component: Profile,
+      },
+      {
+        path: `${Routes.ACCOUNT}/:id`,
+        Component: Account,
       },
       {
         path: Routes.LOGIN,

@@ -15,6 +15,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-01T00:00:00.000Z",
     updatedAt: "2021-09-01T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "2",
@@ -30,6 +31,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-02T00:00:00.000Z",
     updatedAt: "2021-09-02T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "3",
@@ -45,6 +47,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-03T00:00:00.000Z",
     updatedAt: "2021-09-03T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "4",
@@ -60,6 +63,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-04T00:00:00.000Z",
     updatedAt: "2021-09-04T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "5",
@@ -75,6 +79,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-05T00:00:00.000Z",
     updatedAt: "2021-09-05T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "6",
@@ -90,6 +95,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-06T00:00:00.000Z",
     updatedAt: "2021-09-06T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "7",
@@ -105,6 +111,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-07T00:00:00.000Z",
     updatedAt: "2021-09-07T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "8",
@@ -120,6 +127,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-08T00:00:00.000Z",
     updatedAt: "2021-09-08T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "9",
@@ -135,6 +143,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-09T00:00:00.000Z",
     updatedAt: "2021-09-09T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "10",
@@ -150,6 +159,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-10T00:00:00.000Z",
     updatedAt: "2021-09-10T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "11",
@@ -165,6 +175,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-11T00:00:00.000Z",
     updatedAt: "2021-09-11T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "12",
@@ -180,6 +191,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-12T00:00:00.000Z",
     updatedAt: "2021-09-12T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
 
   {
@@ -196,6 +208,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-15T00:00:00.000Z",
     updatedAt: "2021-09-15T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "2",
@@ -211,6 +224,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-16T00:00:00.000Z",
     updatedAt: "2021-09-16T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "3",
@@ -226,6 +240,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-17T00:00:00.000Z",
     updatedAt: "2021-09-17T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "4",
@@ -241,6 +256,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-18T00:00:00.000Z",
     updatedAt: "2021-09-18T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "5",
@@ -256,6 +272,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-19T00:00:00.000Z",
     updatedAt: "2021-09-19T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "6",
@@ -271,6 +288,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-20T00:00:00.000Z",
     updatedAt: "2021-09-20T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "7",
@@ -286,6 +304,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-21T00:00:00.000Z",
     updatedAt: "2021-09-21T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
   {
     id: "8",
@@ -301,6 +320,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-22T00:00:00.000Z",
     updatedAt: "2021-09-22T00:00:00.000Z",
     accountId: "account-2",
+    accountName: "Savings account",
   },
   {
     id: "9",
@@ -316,6 +336,7 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-23T00:00:00.000Z",
     updatedAt: "2021-09-23T00:00:00.000Z",
     accountId: "account-3",
+    accountName: "Secondary account",
   },
   {
     id: "10",
@@ -331,5 +352,6 @@ export const transactionsMock: Transaction[] = [
     createdAt: "2021-09-24T00:00:00.000Z",
     updatedAt: "2021-09-24T00:00:00.000Z",
     accountId: "account-1",
+    accountName: "Main account",
   },
 ];

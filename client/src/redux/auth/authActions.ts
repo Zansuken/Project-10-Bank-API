@@ -4,7 +4,7 @@ import { Endpoints } from "../api/endpoints";
 import { Credentials } from "../../types/auth";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
-import { getAxiosInstance } from "../../utils";
+import { getAxiosInstance } from "../../utils/apiHelpers";
 import { setToken } from "./authSlice";
 
 const axios = getAxiosInstance();

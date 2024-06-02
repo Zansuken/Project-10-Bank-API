@@ -26,7 +26,8 @@ const App: FC = () => {
     if (
       token === undefined &&
       storedToken === undefined &&
-      location.pathname === Routes.PROFILE
+      (location.pathname === Routes.PROFILE ||
+        location.pathname.includes(Routes.ACCOUNT))
     ) {
       navigate(Routes.LOGIN);
     }
