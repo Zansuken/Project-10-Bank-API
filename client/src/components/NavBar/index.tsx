@@ -4,17 +4,32 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Routes } from "../../router/routes";
 import Button from "../Button";
 import useCookies from "../../hooks/useCookies";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { resetUser } from "../../redux/user/userSlice";
+import { userSelectors } from "../../redux/user/userSelectors";
+import { resetTransactions } from "../../redux/transactions/transactionsSlice";
+import { resetToken } from "../../redux/auth/authSlice";
+import { authSelectors } from "../../redux/auth/authSelectors";
 
 const NavBar: FC = () => {
+  const storedToken = useAppSelector(authSelectors.selectToken);
+  const user = useAppSelector(userSelectors.selectUser);
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { cookies: token, removeCookie } = useCookies("token");
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!token || !!storedToken;
 
   const handleLogout = () => {
-    removeCookie("token");
+    if (token) {
+      removeCookie("token");
+    }
     navigate(Routes.HOME);
+    dispatch(resetUser());
+    dispatch(resetTransactions());
+    dispatch(resetToken());
   };
 
   return (
@@ -32,7 +47,7 @@ const NavBar: FC = () => {
           <>
             <NavLink className={classes["main-nav-item"]} to={Routes.PROFILE}>
               <i className="fa fa-user-circle"></i>
-              <span>User</span>
+              <span>{user?.firstName}</span>
             </NavLink>
             <Button
               onClick={handleLogout}

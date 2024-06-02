@@ -17,11 +17,12 @@ type Inputs = {
 };
 
 const Login: FC = () => {
+  const storedToken = useAppSelector(authSelectors.selectToken);
   const { cookies: token } = useCookies("token");
 
   const isLoading = useAppSelector(authSelectors.selectLoading);
   const isSuccessful = useAppSelector(authSelectors.selectSuccess);
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!token || !!storedToken;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {

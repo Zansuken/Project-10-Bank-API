@@ -5,18 +5,31 @@ interface AuthState {
   loading: boolean;
   error: string | SerializedError;
   success: boolean;
+  data: {
+    token: string | undefined;
+  };
 }
 
 const initialState: AuthState = {
   loading: false,
   error: "",
   success: false,
+  data: {
+    token: undefined,
+  },
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setToken: (state, action) => {
+      state.data.token = action.payload;
+    },
+    resetToken: (state) => {
+      state.data.token = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.loading = true;
@@ -33,5 +46,7 @@ const authSlice = createSlice({
     });
   },
 });
+
+export const { setToken, resetToken } = authSlice.actions;
 
 export default authSlice.reducer;

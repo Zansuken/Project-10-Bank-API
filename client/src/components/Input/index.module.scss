@@ -11,6 +11,10 @@
     border-radius: 4px;
     border-style: solid;
 
+    &:hover {
+      border-color: #42b983;
+    }
+
     &:focus {
       outline: none;
       border-color: #42b983;
@@ -49,6 +53,9 @@
 
 .checkbox-label {
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .with-helper {
@@ -60,6 +67,18 @@
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+
+  & label:hover {
+    text-decoration: underline;
+    color: #42b983;
+    cursor: pointer;
+  }
+
+  & input:hover {
+    text-decoration: underline;
+    color: #42b983;
+    cursor: pointer;
+  }
 }
 
 .input-error {

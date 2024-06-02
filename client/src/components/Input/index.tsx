@@ -13,6 +13,7 @@ type Props = {
   inputProps?: InputProps;
   formProps?: UseFormRegisterReturn;
   label?: string;
+  checkboxLabelPosition?: "before" | "after";
   helperText?: string;
   isError?: boolean;
   errorMessage?: string;
@@ -25,6 +26,7 @@ const Input: FC<Props> = ({
   inputProps = {} as InputProps,
   formProps = {} as UseFormRegisterReturn,
   label = "",
+  checkboxLabelPosition = "after",
   helperText = "",
   isError,
   errorMessage = "",
@@ -47,8 +49,16 @@ const Input: FC<Props> = ({
   if (isCheckbox) {
     return (
       <div className={rootClasses}>
-        <input id={formProps.name} type={type} {...formProps} {...inputProps} />
-        {label && <label className={labelClasses}>{label}</label>}
+        <label className={labelClasses}>
+          {checkboxLabelPosition === "before" && <span>{label}</span>}
+          <input
+            id={formProps.name}
+            type={type}
+            {...formProps}
+            {...inputProps}
+          />
+          {checkboxLabelPosition === "after" && <span>{label}</span>}
+        </label>
       </div>
     );
   }

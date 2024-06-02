@@ -11,6 +11,10 @@
   &:hover > span {
     text-decoration: underline;
   }
+
+  &:focus {
+    text-decoration: underline;
+  }
 }
 
 .full-width {

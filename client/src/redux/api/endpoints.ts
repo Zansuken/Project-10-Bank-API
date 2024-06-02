@@ -1,6 +1,7 @@
 const prefixes = {
   base: "/api",
   user: "/user",
+  transactions: "/transactions",
 };
 
 type Endpoint = string;
@@ -11,6 +12,9 @@ type EndpointsType = {
     REGISTER: Endpoint;
     PROFILE: Endpoint;
   };
+  transactions: {
+    BASE: (userId: string) => Endpoint;
+  };
 };
 
 export const Endpoints: EndpointsType = {
@@ -18,5 +22,9 @@ export const Endpoints: EndpointsType = {
     LOGIN: `${prefixes.base}${prefixes.user}/login`,
     REGISTER: `${prefixes.base}${prefixes.user}/register`,
     PROFILE: `${prefixes.base}${prefixes.user}/profile`,
+  },
+  transactions: {
+    BASE: (userId: string) =>
+      `${prefixes.base}${prefixes.transactions}/user/${userId}`,
   },
 };

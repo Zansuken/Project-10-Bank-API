@@ -1,9 +1,13 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Endpoints } from "../../api/endpoints";
+import { Endpoints } from "../api/endpoints";
 import { Credentials } from "../../types/auth";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
+import { getAxiosInstance } from "../../utils";
+import { setToken } from "./authSlice";
+
+const axios = getAxiosInstance();
 
 type DecodedToken = {
   id: string;
@@ -11,29 +15,35 @@ type DecodedToken = {
   exp: number;
 };
 
+interface LoginPayload extends Credentials {
+  rememberMe: boolean;
+}
+
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ email, password }: Credentials, { rejectWithValue }) => {
+  async (
+    { email, password, rememberMe }: LoginPayload,
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const {
         data: {
           body: { token },
         },
-      } = await axios.post(Endpoints.user.LOGIN, { email, password }, config);
+      } = await axios.post(Endpoints.user.LOGIN, { email, password });
 
       const decodedToken: DecodedToken = jwtDecode(token);
 
-      const cookies = new Cookies();
+      dispatch(setToken(token));
 
-      cookies.set("token", token, {
-        path: "/",
-        expires: new Date(decodedToken.exp * 1000),
-      });
+      if (rememberMe) {
+        const cookies = new Cookies();
+
+        cookies.set("token", token, {
+          path: "/",
+          expires: new Date(decodedToken.exp * 1000),
+        });
+      }
 
       return token;
     } catch (error) {
