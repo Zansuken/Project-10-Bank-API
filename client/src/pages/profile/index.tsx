@@ -1,6 +1,5 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getUserProfile } from "../../redux/user/userActions";
 import { userSelectors } from "../../redux/user/userSelectors";
 import classes from "./index.module.scss";
 import { getTransactions } from "../../redux/transactions/transactionsActions";
@@ -14,14 +13,19 @@ const Profile: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (storedToken) {
-      dispatch(getUserProfile());
-    }
+  const fetchUserProfile = useCallback(() => {
     if (storedToken && user?.id) {
       dispatch(getTransactions());
     }
   }, [dispatch, storedToken, user?.id]);
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [fetchUserProfile]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className={classes["root"]}>

@@ -50,7 +50,7 @@ export const login = createAsyncThunk(
     } catch (error) {
       const err = error as AxiosError;
 
-      if (err.response && err.response.data) {
+      if (err.response?.data) {
         const responseData: { message?: string } = err.response.data;
         dispatch(
           addNotificationToQueue({
@@ -60,6 +60,12 @@ export const login = createAsyncThunk(
         );
         return rejectWithValue(responseData);
       } else {
+        dispatch(
+          addNotificationToQueue({
+            message: err.message,
+            type: "error",
+          })
+        );
         return rejectWithValue(err.message);
       }
     }

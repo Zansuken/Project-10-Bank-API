@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import classes from "./index.module.scss";
 import classNames from "classnames";
 
@@ -14,6 +14,7 @@ type Props = {
   iconPosition?: "start" | "end";
   submit?: boolean;
   isLoading?: boolean;
+  buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
 };
 
 const Button: FC<Props> = ({
@@ -28,6 +29,7 @@ const Button: FC<Props> = ({
   iconPosition = "start",
   submit = false,
   isLoading,
+  buttonProps,
 }) => {
   return (
     <button
@@ -44,6 +46,7 @@ const Button: FC<Props> = ({
       disabled={disabled || isLoading}
       onClick={onClick}
       type={submit ? "submit" : "button"}
+      {...buttonProps}
     >
       {isLoading ? (
         <span className={classes["loader"]}>

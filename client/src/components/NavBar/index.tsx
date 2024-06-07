@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import classes from "./index.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Routes } from "../../router/routes";
@@ -33,11 +33,15 @@ const NavBar: FC = () => {
     dispatch(resetToken());
   };
 
-  useEffect(() => {
+  const fetchUserProfile = useCallback(() => {
     if (!user && isAuthenticated) {
       dispatch(getUserProfile());
     }
   }, [dispatch, user, isAuthenticated]);
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [user?.id, fetchUserProfile]);
 
   return (
     <nav className={classes["main-nav"]}>

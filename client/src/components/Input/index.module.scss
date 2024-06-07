@@ -23,11 +23,17 @@
         top: -0.5rem;
         left: 0.5rem;
         font-size: 0.8rem;
-        background-color: white;
+        background: linear-gradient(0deg, white 50%, transparent 50%);
         padding: 0 0.2rem;
+        color: #42b983;
       }
     }
   }
+}
+
+.is-focused {
+  color: #42b983;
+  text-decoration: underline;
 }
 
 .is-fulfilled {

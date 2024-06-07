@@ -1,4 +1,11 @@
-import { DetailedHTMLProps, FC, HTMLInputTypeAttribute } from "react";
+import {
+  DetailedHTMLProps,
+  FC,
+  HTMLInputTypeAttribute,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 import classes from "./index.module.scss";
 import { UseFormRegisterReturn } from "react-hook-form";
@@ -14,6 +21,7 @@ type Props = {
   formProps?: UseFormRegisterReturn;
   label?: string;
   checkboxLabelPosition?: "before" | "after";
+  placeholder?: string;
   helperText?: string;
   isError?: boolean;
   errorMessage?: string;
@@ -27,12 +35,33 @@ const Input: FC<Props> = ({
   formProps = {} as UseFormRegisterReturn,
   label = "",
   checkboxLabelPosition = "after",
+  placeholder = "",
   helperText = "",
   isError,
   errorMessage = "",
   isDirty,
 }) => {
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const isCheckbox = type === "checkbox";
+
+  const checkboxLabelRef = useRef<HTMLLabelElement | null>(null);
+
+  useLayoutEffect(() => {
+    const checkbox = checkboxLabelRef.current?.querySelector("input");
+    if (checkbox) {
+      checkbox.addEventListener("focusin", () => setIsFocused(true));
+
+      checkbox.addEventListener("focusout", () => setIsFocused(false));
+    }
+
+    return () => {
+      if (checkbox) {
+        checkbox.removeEventListener("focus", () => {});
+
+        checkbox.removeEventListener("focusout", () => {});
+      }
+    };
+  }, []);
 
   const rootClasses = classNames(classes["input-wrapper"], {
     [classes["checkbox-wrapper"]]: type === "checkbox",
@@ -44,12 +73,13 @@ const Input: FC<Props> = ({
     [classes["error"]]: isError,
     [classes["label-default"]]: !isCheckbox,
     [classes["is-fulfilled"]]: !isCheckbox && isDirty,
+    [classes["is-focused"]]: isFocused,
   });
 
   if (isCheckbox) {
     return (
       <div className={rootClasses}>
-        <label className={labelClasses}>
+        <label className={labelClasses} ref={checkboxLabelRef}>
           {checkboxLabelPosition === "before" && <span>{label}</span>}
           <input
             id={formProps.name}
@@ -70,6 +100,7 @@ const Input: FC<Props> = ({
         type={type}
         {...formProps}
         {...inputProps}
+        placeholder={placeholder}
       />
       {label && <label className={labelClasses}>{label}</label>}
       {(helperText || isError) && (

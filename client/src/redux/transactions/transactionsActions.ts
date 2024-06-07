@@ -5,12 +5,13 @@ import { Transaction } from "../../types/transactions";
 import { AxiosError } from "axios";
 import { transactionsMock } from "../../mocks/transactions.mock";
 import { RootState } from "../store";
+import { addNotificationToQueue } from "../app/appSlice";
 
 // Uncomment the following line when you are ready to connect to the backend
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
     const {
       user,
       // auth: {
@@ -38,9 +39,23 @@ export const getTransactions = createAsyncThunk(
       return transactions;
     } catch (error) {
       const err = error as AxiosError;
-      if (err.response && err.response.data) {
-        return rejectWithValue(err.response.data);
+
+      if (err.response?.data) {
+        const responseData: { message?: string } = err.response.data;
+        dispatch(
+          addNotificationToQueue({
+            message: responseData.message!,
+            type: "error",
+          })
+        );
+        return rejectWithValue(responseData);
       } else {
+        dispatch(
+          addNotificationToQueue({
+            message: err.message,
+            type: "error",
+          })
+        );
         return rejectWithValue(err.message);
       }
     }

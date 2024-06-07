@@ -3,6 +3,7 @@ import { Transaction } from "../../../types/transactions";
 import classes from "./TransactionDetails.module.scss";
 import { useForm } from "react-hook-form";
 import Input from "../../../components/Input";
+import IconButton from "../../../components/IconButton";
 
 type ItemProps = {
   transactionId: string;
@@ -57,16 +58,18 @@ const Item: FC<ItemProps> = ({ transactionId, label, value, canUpdate }) => {
             inputProps={{ defaultValue: value }}
             isDirty={!!watch("value")}
           />
-          <button type="submit" className={classes["icon-button"]}>
-            <i className="fa fa-check" aria-hidden="true"></i>
-          </button>
+          <IconButton
+            icon={<i className="fa fa-check" aria-hidden="true"></i>}
+            submit
+          />
         </form>
       ) : (
         <div className={classes["value-container"]}>
           <span>{watch("value") || value}</span>
-          <button onClick={handleEdit} className={classes["icon-button"]}>
-            <i className="fa fa-pencil" aria-hidden="true"></i>
-          </button>
+          <IconButton
+            icon={<i className="fa fa-pencil" aria-hidden="true"></i>}
+            onClick={handleEdit}
+          />
         </div>
       )}
     </div>

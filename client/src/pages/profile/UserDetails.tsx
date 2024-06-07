@@ -1,10 +1,11 @@
 import { FC, useState } from "react";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userSelectors } from "../../redux/user/userSelectors";
 import classes from "./UserDetails.module.scss";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { useForm } from "react-hook-form";
+import { updateUserProfile } from "../../redux/user/userActions";
 
 type Inputs = {
   firstName: string;
@@ -15,21 +16,40 @@ const UserDetails: FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const user = useAppSelector(userSelectors.selectUser);
+  const isLoading = useAppSelector(userSelectors.selectUserLoading);
 
-  const handleEditName = () => setIsEditing(true);
-  const handleCancelEdit = () => setIsEditing(false);
-  const handleSaveName = () => setIsEditing(false);
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    formState,
+    setValue,
+    clearErrors,
   } = useForm<Inputs>();
 
-  const onSubmit = (data: Inputs) => {
-    console.log(data);
+  const handleEditName = () => setIsEditing(true);
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    if (user) {
+      setValue("lastName", user?.lastName);
+      setValue("firstName", user?.firstName);
+    }
+    clearErrors();
   };
+
+  const onSubmit = (data: Inputs) => {
+    dispatch(
+      updateUserProfile({ payload: data, successFn: () => setIsEditing(false) })
+    );
+  };
+
+  const isSubmitDisabled =
+    !formState.isValid ||
+    (watch("firstName") === user?.firstName &&
+      watch("lastName") === user?.lastName);
 
   return (
     <>
@@ -53,9 +73,16 @@ const UserDetails: FC = () => {
           <form className={classes["form"]} onSubmit={handleSubmit(onSubmit)}>
             <div className={classes["row"]}>
               <Input
-                label="First name"
                 formProps={register("firstName", {
                   required: "First name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Min 2 characters",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Max 20 characters",
+                  },
                 })}
                 isError={!!errors.firstName}
                 errorMessage={errors.firstName?.message}
@@ -63,13 +90,22 @@ const UserDetails: FC = () => {
                 inputProps={{
                   autoComplete: "given-name",
                   defaultValue: user?.firstName,
+                  disabled: isLoading,
                 }}
                 isDirty={!!watch("firstName")}
+                placeholder={user?.firstName}
               />
               <Input
-                label="Last name"
                 formProps={register("lastName", {
                   required: "Last name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Min 2 characters",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Max 20 characters",
+                  },
                 })}
                 isError={!!errors.lastName}
                 errorMessage={errors.lastName?.message}
@@ -77,24 +113,28 @@ const UserDetails: FC = () => {
                 inputProps={{
                   autoComplete: "family-name",
                   defaultValue: user?.lastName,
+                  disabled: isLoading,
                 }}
                 isDirty={!!watch("lastName")}
+                placeholder={user?.lastName}
               />
             </div>
             <div className={classes["row"]}>
+              <Button
+                variant="contained"
+                color="primary"
+                submit
+                disabled={isSubmitDisabled}
+                isLoading={isLoading}
+              >
+                Save
+              </Button>
               <Button
                 onClick={handleCancelEdit}
                 variant="contained"
                 color="primary"
               >
                 Cancel
-              </Button>
-              <Button
-                onClick={handleSaveName}
-                variant="contained"
-                color="primary"
-              >
-                Save
               </Button>
             </div>
           </form>
