@@ -5,8 +5,8 @@ import { userSelectors } from "../../redux/user/userSelectors";
 import classes from "./index.module.scss";
 import { getTransactions } from "../../redux/transactions/transactionsActions";
 import { authSelectors } from "../../redux/auth/authSelectors";
-import Button from "../../components/Button";
 import Accounts from "./Accounts";
+import UserDetails from "./UserDetails";
 
 const Profile: FC = () => {
   const user = useAppSelector(userSelectors.selectUser);
@@ -25,16 +25,7 @@ const Profile: FC = () => {
 
   return (
     <div className={classes["root"]}>
-      <h1>
-        Welcome back
-        <br />
-        {`${user?.firstName} ${user?.lastName}!`}
-      </h1>
-      <div className={classes["button-wrapper"]}>
-        <Button variant="contained" color="primary">
-          Edit name
-        </Button>
-      </div>
+      <UserDetails />
       <Accounts />
     </div>
   );

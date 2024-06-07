@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
 import { getAxiosInstance } from "../../utils/apiHelpers";
 import { setToken } from "./authSlice";
+import { addNotificationToQueue } from "../app/appSlice";
 
 const axios = getAxiosInstance();
 
@@ -48,8 +49,16 @@ export const login = createAsyncThunk(
       return token;
     } catch (error) {
       const err = error as AxiosError;
+
       if (err.response && err.response.data) {
-        return rejectWithValue(err.response.data);
+        const responseData: { message?: string } = err.response.data;
+        dispatch(
+          addNotificationToQueue({
+            message: responseData.message!,
+            type: "error",
+          })
+        );
+        return rejectWithValue(responseData);
       } else {
         return rejectWithValue(err.message);
       }

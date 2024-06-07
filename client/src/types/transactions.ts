@@ -6,13 +6,13 @@ export type Transaction = {
   amount: number;
   balanceLeft: number;
   category: string;
-  createdAt: Date;
+  createdAt: Date | string;
   description: string;
   id: string;
   notes: string;
   pspReference: string;
   status: TransactionStatus;
   type: string;
-  updatedAt: Date;
+  updatedAt: Date | string;
   userId: string;
 };

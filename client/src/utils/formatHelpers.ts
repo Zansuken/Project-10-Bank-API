@@ -5,7 +5,7 @@ export const formatDate = ({
   locale = browserLocale,
   options,
 }: {
-  date: Date;
+  date: Date | string;
   locale?: Intl.LocalesArgument;
   options?: Intl.DateTimeFormatOptions;
 }): string => new Date(date).toLocaleDateString(locale, options);

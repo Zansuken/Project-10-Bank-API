@@ -32,9 +32,7 @@ const Login: FC = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit = (data: Inputs) => {
-    dispatch(login(data));
-  };
+  const onSubmit = (data: Inputs) => dispatch(login(data));
 
   useEffect(() => {
     if (isAuthenticated) {

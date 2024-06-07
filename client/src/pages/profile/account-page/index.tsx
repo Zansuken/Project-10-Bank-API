@@ -51,7 +51,7 @@ const Account: FC = () => {
         },
       }),
       description: transaction.description,
-      amount: transaction.amount,
+      amount: `$${transaction.amount}`,
       balance: `$${transaction.balanceLeft}`,
       expandedContent: <TransactionDetails transaction={transaction} />,
     })
