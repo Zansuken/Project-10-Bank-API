@@ -2,12 +2,26 @@
   width: 100%;
   border-spacing: 0;
   margin-bottom: 1rem;
-  background-color: #fff;
   box-sizing: border-box;
   border-collapse: collapse;
-  display: block;
-  overflow-y: auto;
   max-height: 500px;
+
+  tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 500px;
+    margin-right: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    &.can-scroll {
+      margin-right: 0;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+      border-radius: 0 5px 5px 0;
+    }
+  }
 
   thead,
   tbody tr {
@@ -29,5 +43,6 @@
   th {
     padding: 0.75rem;
     text-align: left;
+    background-color: #c0c0c0;
   }
 }

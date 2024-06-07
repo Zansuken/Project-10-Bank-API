@@ -51,6 +51,7 @@ const App: FC = () => {
           [classes["bg-dark"]]:
             location.pathname === Routes.LOGIN ||
             location.pathname === Routes.PROFILE,
+          [classes["bg-grey"]]: location.pathname.includes(Routes.ACCOUNT),
         })}
       >
         {currentToken! === null ? (

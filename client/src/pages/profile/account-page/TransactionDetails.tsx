@@ -21,6 +21,11 @@ const Item: FC<ItemProps> = ({ transactionId, label, value, canUpdate }) => {
 
   const onSubmit = () => {
     setIsEditing(false);
+
+    if (watch("value") === value) {
+      return;
+    }
+
     console.log(
       `submitted changes for transaction ${transactionId}: `,
       watch("value")
