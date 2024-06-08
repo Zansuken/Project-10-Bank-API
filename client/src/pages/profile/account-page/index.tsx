@@ -10,6 +10,7 @@ import AccountDetails from "./AccountDetails";
 import Table, { ColumnCell, Row } from "../../../components/Table";
 import { formatDate } from "../../../utils/formatHelpers";
 import TransactionDetails from "./TransactionDetails";
+import Chip from "../../../components/Chip";
 
 const Account: FC = () => {
   const user = useAppSelector(userSelectors.selectUser);
@@ -40,21 +41,30 @@ const Account: FC = () => {
   ];
 
   const rows: Row[] = getTransactionsByAccountId(account?.id).map(
-    (transaction) => ({
-      id: transaction.id,
-      date: formatDate({
-        date: transaction.createdAt,
-        options: {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        },
-      }),
-      description: transaction.description,
-      amount: `$${transaction.amount}`,
-      balance: `$${transaction.balanceLeft}`,
-      expandedContent: <TransactionDetails transaction={transaction} />,
-    })
+    (transaction) => {
+      const isExpense = transaction.type === "EXPENSE";
+
+      return {
+        id: transaction.id,
+        date: formatDate({
+          date: transaction.createdAt,
+          options: {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          },
+        }),
+        description: transaction.description,
+        amount: (
+          <Chip
+            label={`${isExpense ? "-" : "+"} $${transaction.amount}`}
+            type={isExpense ? "error" : "success"}
+          />
+        ),
+        balance: <Chip label={`$${transaction.balanceLeft}`} />,
+        expandedContent: <TransactionDetails transaction={transaction} />,
+      };
+    }
   );
 
   return (

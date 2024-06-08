@@ -50,8 +50,8 @@ const App: FC = () => {
         className={classNames(classes["main"], {
           [classes["bg-dark"]]:
             location.pathname === Routes.LOGIN ||
-            location.pathname === Routes.PROFILE,
-          [classes["bg-grey"]]: location.pathname.includes(Routes.ACCOUNT),
+            location.pathname === Routes.PROFILE ||
+            location.pathname.includes(Routes.ACCOUNT),
         })}
       >
         {currentToken! === null ? (

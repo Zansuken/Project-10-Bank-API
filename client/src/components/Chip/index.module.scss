@@ -1,0 +1,30 @@
+.root {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+}
+
+.default {
+  color: #000;
+  background-color: #f5f5f5;
+}
+
+.success {
+  color: #1b5e20;
+  background-color: #e8f5e9;
+}
+
+.error {
+  color: #b71c1c;
+  background-color: #ffebee;
+}
+
+.warning {
+  color: #f57f17;
+  background-color: #fff3e0;
+}
+
+.info {
+  color: #1976d2;
+  background-color: #e3f2fd;
+}

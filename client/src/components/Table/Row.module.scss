@@ -7,6 +7,7 @@
   text-align: left;
   position: relative;
   background-color: #fff;
+  z-index: 2;
 
   &.expanded {
     border-bottom: 2px solid transparent;
@@ -35,8 +36,26 @@
   padding: 0.75rem;
   transition: all 0.3s ease-in-out;
   box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease;
+  z-index: 1;
 
   td:nth-child(2) {
     padding: 1.5rem 0.75rem 1rem;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

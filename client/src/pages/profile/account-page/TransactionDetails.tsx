@@ -4,15 +4,25 @@ import classes from "./TransactionDetails.module.scss";
 import { useForm } from "react-hook-form";
 import Input from "../../../components/Input";
 import IconButton from "../../../components/IconButton";
+import Chip from "../../../components/Chip";
 
 type ItemProps = {
   transactionId: string;
   label: string;
   value: string;
+  useChip?: boolean;
+  chipColor?: "default" | "success" | "error" | "warning" | "info";
   canUpdate?: boolean;
 };
 
-const Item: FC<ItemProps> = ({ transactionId, label, value, canUpdate }) => {
+const Item: FC<ItemProps> = ({
+  transactionId,
+  label,
+  value,
+  canUpdate,
+  useChip,
+  chipColor,
+}) => {
   const { register, handleSubmit, watch } = useForm();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -38,7 +48,11 @@ const Item: FC<ItemProps> = ({ transactionId, label, value, canUpdate }) => {
       <div className={classes["item"]}>
         <span className={classes["label"]}>{label}:</span>
         <div className={classes["value-container"]}>
-          <span>{value}</span>
+          {useChip ? (
+            <Chip label={value} type={chipColor} />
+          ) : (
+            <span className={classes["value"]}>{value}</span>
+          )}
         </div>
       </div>
     );
@@ -65,7 +79,11 @@ const Item: FC<ItemProps> = ({ transactionId, label, value, canUpdate }) => {
         </form>
       ) : (
         <div className={classes["value-container"]}>
-          <span>{watch("value") || value}</span>
+          {useChip ? (
+            <Chip label={value} type={chipColor} />
+          ) : (
+            <span className={classes["value"]}>{value}</span>
+          )}
           <IconButton
             icon={<i className="fa fa-pencil" aria-hidden="true"></i>}
             onClick={handleEdit}
@@ -85,8 +103,20 @@ const TransactionDetails: FC<Props> = ({
 }) => {
   return (
     <div className={classes["root"]}>
-      <Item transactionId={id} label="Transaction Type" value={type} />
-      <Item transactionId={id} label="Category" value={category} canUpdate />
+      <Item
+        transactionId={id}
+        label="Transaction Type"
+        value={type}
+        useChip
+        chipColor={type === "INCOME" ? "success" : "error"}
+      />
+      <Item
+        transactionId={id}
+        label="Category"
+        value={category}
+        canUpdate
+        useChip
+      />
       <Item transactionId={id} label="Notes" value={notes} canUpdate />
     </div>
   );

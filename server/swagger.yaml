@@ -29,9 +29,13 @@ paths:
           description: Login Successfully
           schema:
             $ref: '#/definitions/LoginResponse'
-        '400':
-          description: Invalid Fields
-        '500':
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
           description: Internal Server Error
   /user/signup:
     post:
@@ -53,9 +57,13 @@ paths:
           description: Signup Successfully
           schema:
             $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
           description: Internal Server Error
   /user/profile:
     post:
@@ -70,6 +78,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -77,9 +86,13 @@ paths:
           description: User profile retrieved successully
           schema:
             $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
           description: Internal Server Error
     put:
       security:
@@ -93,6 +106,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -106,10 +120,149 @@ paths:
           description: User profile retrieved successully
           schema:
             $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
           description: Internal Server Error
+  /user/{userId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get User transactions
+      description: API for fetching a user transactions with optional filters.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - name: userId
+          in: path
+          description: User id
+          required: true
+          type: string
+        - in: query
+          name: accountId
+          description: Account id
+          required: false
+          type: string
+        - in: query
+          name: startDate
+          description: Creation start date (UTC format)
+          required: false
+          type: string
+        - in: query
+          name: endDate
+          description: Creation end date (UTC format)
+          required: false
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema: 
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+  /user/{userId}/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get User transaction by transactionId
+      description: API for fetching a user specific transaction by its id.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - name: userId
+          in: path
+          description: User id
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: Transaction id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema: 
+            $ref: '#/definitions/Transaction'
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Update User transaction
+      description: API for updating a user specific transaction by its id.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+        - name: userId
+          in: path
+          description: User id
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: Transaction id
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema: 
+            $ref: '#/definitions/Transaction'
+        400:
+          description: Bad request
+        401:
+          description: Not authorized
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -118,6 +271,9 @@ securityDefinitions:
 definitions:
   User:
     properties:
+      id:
+        type: string
+        description: user id
       email:
         type: string
         description: user email
@@ -164,3 +320,58 @@ definitions:
         type: string
       lastName:
         type: string
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+      accountId:
+        type: string
+      userId:
+        type: string
+      accountName:
+        type: string
+      amount:
+        type: number
+      balanceLeft:
+        type: number
+      category:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      notes:
+        type: string
+      pspReference:
+        type: string
+      status:
+        type: string
+        enum: 
+          - PENDING
+          - COMPLETED
+          - REJECTED
+          - ERROR
+      type:
+        type: string
+      updatedAt:
+        type: string
+    required:
+      - id
+      - accountId
+      - userId
+    example:
+      id: 5f5e7b3b7b3b7b3b7b3b7b3
+      accountId: 5f5e7b3b7b3b7b3b7b3b7b3
+      accountName: Savings
+      amount: 100
+      balanceLeft: 100
+      category: Food
+      createdAt: 2020-09-13T00:00:00.000Z
+      description: Food
+      notes: Food
+      pspReference: 5f5e7b3b7b3b7b3b7b3b7b3
+      status: PENDING
+      type: DEBIT
+      updatedAt: 2020-09-13T00:00:00.000Z
+      userId: 5f5e7b3b7b3b7b3b7b3b7b3
