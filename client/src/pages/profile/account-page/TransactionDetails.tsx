@@ -6,6 +6,8 @@ import Input from "../../../components/Input";
 import IconButton from "../../../components/IconButton";
 import Chip from "../../../components/Chip";
 import useViewPort from "../../../hooks/useViewPort";
+import { useAppDispatch } from "../../../redux/hooks";
+import { updateTransaction } from "../../../redux/transactions/transactionsActions";
 
 type ItemProps = {
   transactionId: string;
@@ -27,6 +29,8 @@ const Item: FC<ItemProps> = ({
   const { register, handleSubmit, watch } = useForm();
   const [isEditing, setIsEditing] = useState(false);
 
+  const dispatch = useAppDispatch();
+
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -38,9 +42,11 @@ const Item: FC<ItemProps> = ({
       return;
     }
 
-    console.log(
-      `submitted changes for transaction ${transactionId}: `,
-      watch("value")
+    dispatch(
+      updateTransaction({
+        id: transactionId,
+        [label.toLowerCase()]: watch("value"),
+      })
     );
   };
 
