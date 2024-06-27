@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Input from "../../../components/Input";
 import IconButton from "../../../components/IconButton";
 import Chip from "../../../components/Chip";
+import useViewPort from "../../../hooks/useViewPort";
 
 type ItemProps = {
   transactionId: string;
@@ -99,10 +100,15 @@ type Props = {
 };
 
 const TransactionDetails: FC<Props> = ({
-  transaction: { id, type, category, notes },
+  transaction: { id, type, category, notes, description },
 }) => {
+  const { isMobile } = useViewPort();
+
   return (
     <div className={classes["root"]}>
+      {isMobile && (
+        <Item transactionId={id} label="Description" value={description} />
+      )}
       <Item
         transactionId={id}
         label="Transaction Type"

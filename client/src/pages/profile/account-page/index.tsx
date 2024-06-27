@@ -11,12 +11,14 @@ import Table, { ColumnCell, Row } from "../../../components/Table";
 import { formatDate } from "../../../utils/formatHelpers";
 import TransactionDetails from "./TransactionDetails";
 import Chip from "../../../components/Chip";
+import useViewPort from "../../../hooks/useViewPort";
 
 const Account: FC = () => {
   const user = useAppSelector(userSelectors.selectUser);
   const storedToken = useAppSelector(authSelectors.selectToken);
 
   const { accounts, getTransactionsByAccountId } = useTransactions();
+  const { isMobile } = useViewPort();
 
   const params = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
@@ -34,10 +36,38 @@ const Account: FC = () => {
   }
 
   const columns: ColumnCell[] = [
-    { label: "DATE", key: "date" },
-    { label: "DESCRIPTION", key: "description" },
-    { label: "AMOUNT", key: "amount" },
-    { label: "BALANCE", key: "balance" },
+    {
+      label: isMobile ? (
+        <i className="fa fa-calendar" aria-hidden="true"></i>
+      ) : (
+        "DATE"
+      ),
+      key: "date",
+    },
+    {
+      label: isMobile ? (
+        <i className="fa fa-th-large" aria-hidden="true"></i>
+      ) : (
+        "DESCRIPTION"
+      ),
+      key: "description",
+    },
+    {
+      label: isMobile ? (
+        <i className="fa fa-money" aria-hidden="true"></i>
+      ) : (
+        "AMOUNT"
+      ),
+      key: "amount",
+    },
+    {
+      label: isMobile ? (
+        <i className="fa fa-balance-scale" aria-hidden="true"></i>
+      ) : (
+        "BALANCE"
+      ),
+      key: "balance",
+    },
   ];
 
   const rows: Row[] = getTransactionsByAccountId(account?.id).map(
@@ -48,16 +78,22 @@ const Account: FC = () => {
         id: transaction.id,
         date: formatDate({
           date: transaction.createdAt,
-          options: {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          },
+          options: isMobile
+            ? { year: "2-digit", month: "2-digit", day: "2-digit" }
+            : {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              },
         }),
         description: transaction.description,
         amount: (
           <Chip
-            label={`${isExpense ? "-" : "+"} $${transaction.amount}`}
+            label={
+              isMobile
+                ? `$${transaction.amount}`
+                : `${isExpense ? "-" : "+"} $${transaction.amount}`
+            }
             type={isExpense ? "error" : "success"}
           />
         ),

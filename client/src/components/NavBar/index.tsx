@@ -11,6 +11,8 @@ import { resetTransactions } from "../../redux/transactions/transactionsSlice";
 import { resetToken } from "../../redux/auth/authSlice";
 import { authSelectors } from "../../redux/auth/authSelectors";
 import { getUserProfile } from "../../redux/user/userActions";
+import useViewPort from "../../hooks/useViewPort";
+import IconButton from "../IconButton";
 
 const NavBar: FC = () => {
   const storedToken = useAppSelector(authSelectors.selectToken);
@@ -18,6 +20,7 @@ const NavBar: FC = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { isMobile } = useViewPort();
 
   const { cookies: token, removeCookie } = useCookies("token");
 
@@ -64,13 +67,20 @@ const NavBar: FC = () => {
                 <i className="fa fa-spinner fa-spin"></i>
               )}
             </NavLink>
-            <Button
-              onClick={handleLogout}
-              icon={<i className="fa fa-sign-out"></i>}
-              color="secondary"
-            >
-              <span>Sign Out</span>
-            </Button>
+            {isMobile ? (
+              <IconButton
+                icon={<i className="fa fa-sign-out"></i>}
+                onClick={handleLogout}
+              />
+            ) : (
+              <Button
+                onClick={handleLogout}
+                icon={<i className="fa fa-sign-out"></i>}
+                color="secondary"
+              >
+                <span>Sign Out</span>
+              </Button>
+            )}
           </>
         ) : (
           <NavLink className={classes["main-nav-item"]} to={Routes.LOGIN}>

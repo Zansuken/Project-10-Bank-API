@@ -28,7 +28,7 @@ const UserDetails: FC = () => {
     formState,
     setValue,
     clearErrors,
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: "onBlur" });
 
   const handleEditName = () => setIsEditing(true);
   const handleCancelEdit = () => {
@@ -84,7 +84,7 @@ const UserDetails: FC = () => {
                     message: "Max 20 characters",
                   },
                 })}
-                isError={!!errors.firstName}
+                isError={!!errors.firstName || undefined}
                 errorMessage={errors.firstName?.message}
                 type="text"
                 inputProps={{
@@ -107,7 +107,7 @@ const UserDetails: FC = () => {
                     message: "Max 20 characters",
                   },
                 })}
-                isError={!!errors.lastName}
+                isError={!!errors.lastName || undefined}
                 errorMessage={errors.lastName?.message}
                 type="text"
                 inputProps={{

@@ -12,6 +12,10 @@
       color: #42b983;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+  }
 }
 
 .main-nav-item {

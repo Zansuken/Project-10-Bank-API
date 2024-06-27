@@ -6,10 +6,12 @@
 .form {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .row {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }

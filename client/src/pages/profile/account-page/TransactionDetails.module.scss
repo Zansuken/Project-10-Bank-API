@@ -20,4 +20,11 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+    input {
+      font-size: 0.8rem;
+      max-width: 100px;
+    }
+  }
 }
